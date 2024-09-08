@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wrx.mapper.UserMapper">
+    <insert id="insertUser">
+        insert into user values(null,#{username},#{password},#{nickname},#{sex},#{hobby})
+    </insert>
+    <!--    <insert id="insertUser">-->
+<!--        insert into user values(null,#{name},#{hobby})-->
+<!--    </insert>-->
+<!--    <select id="SelectAlluser" resultType="com.wrx.domain.User">-->
+<!--        select * from user;-->
+<!--    </select>-->
+<!--    <select id="selectByUsername" resultType="com.wrx.domain.User">-->
+<!--        select * from user where username=#{username};-->
+<!--    </select>-->
+    <select id="login" resultType="com.wrx.domain.User">
+        select * from user where username = #{username} and password = #{password};
+    </select>
+</mapper>

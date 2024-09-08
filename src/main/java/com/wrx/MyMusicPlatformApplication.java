@@ -1,4 +1,4 @@
-package com.wrx.my_music_platform;
+package com.wrx;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
