@@ -4,16 +4,16 @@
     <insert id="insertUser">
         insert into user values(null,#{username},#{password},#{nickname},#{sex},#{hobby})
     </insert>
-    <!--    <insert id="insertUser">-->
-<!--        insert into user values(null,#{name},#{hobby})-->
-<!--    </insert>-->
-<!--    <select id="SelectAlluser" resultType="com.wrx.domain.User">-->
-<!--        select * from user;-->
-<!--    </select>-->
-<!--    <select id="selectByUsername" resultType="com.wrx.domain.User">-->
-<!--        select * from user where username=#{username};-->
-<!--    </select>-->
+    <update id="upateUser">
+update user set nickname = #{nickname},password=#{password},sex=#{sex},hobby=#{hobby} where user_id =#{user_id}
+    </update>
     <select id="login" resultType="com.wrx.domain.User">
-        select * from user where username = #{username} and password = #{password};
+        select * from user where username = #{username} and password = #{password}
     </select>
+    <select id="registerJudge" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM user WHERE username = #{username};
+    </select>
+    <select id="editor" resultType="com.wrx.domain.User">select * from user where username = #{username} and password = #{password}</select>
+    <select id="show" resultType="com.wrx.domain.User"> select * from user where user_id =  #{user_id} </select>
+
 </mapper>

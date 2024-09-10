@@ -1,0 +1,23 @@
+spring:
+  aop:
+    proxy-target-class: false
+  boot:
+    admin:
+      client:
+        url : http://localhost:8888
+
+debug: true
+logging:
+  level:
+    com.wrx : debug
+management:
+  endpoints:
+    enabled-by-default: true
+#配置启用所有端点
+  web:
+    exposure:
+      include: "*"
+  endpoint:
+    health:
+      show-details: always
+#web端暴露所有端点

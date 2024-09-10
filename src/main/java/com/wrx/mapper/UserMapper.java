@@ -9,13 +9,15 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserMapper {
+    Integer upateUser(User user);
+
     User login(User user);
 
     void insertUser(User user);
-//    List<User> SelectAlluser();
-//
-//    void insertUser(User user0);
-//
-//    User selectByUsername(String username);
+    Integer registerJudge(User user);
+
+    User show(User user);
+
+
 
 }
