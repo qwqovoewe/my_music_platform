@@ -35,8 +35,7 @@ public class MvController {
          listDetail.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
          listsDetails.add(listDetail);
       }
-      map.put("",listsDetails);
-      return new ResponseResult(200,"查询成功！",map);
+      return new ResponseResult(200,"查询成功！",listsDetails    );
    }
    @GetMapping("/choice/{mv_id}" )
    public ResponseResult mv_details(@PathVariable String mv_id){
@@ -65,7 +64,6 @@ public class MvController {
          listDetail.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
          listsDetails.add(listDetail);
       }
-      map.put("",listsDetails);
-      return new ResponseResult(200,"查询成功！",map);
+      return new ResponseResult(200,"查询成功！",listsDetails);
    }
 }

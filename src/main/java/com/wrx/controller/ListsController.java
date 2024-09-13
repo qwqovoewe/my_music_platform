@@ -42,8 +42,8 @@ public class ListsController {
             listDetail.put("list" + String.valueOf(i + 1) + "list_id",String.valueOf(list_in.getList_id()));
            listsDetails.add(listDetail);
         }
-            map.put("",listsDetails);
-        return new ResponseResult(200, "查看成功!", map);
+
+        return new ResponseResult(200, "查看成功!", listsDetails);
     }
 
     @PostMapping("/add")
@@ -74,9 +74,7 @@ public class ListsController {
             listDetail.put("music" + String.valueOf(i + 1) + "music_url", showMusicInList.getMusic_url());
             listsDetails.add(listDetail);
         }
-        map.put(" ",listsDetails);
-        map.put("music_num",listsService.getmusicInListNum(music_inList));
-        return new ResponseResult(200,"查询成功！",map);
+        return new ResponseResult(200,"查询成功！",listsDetails);
     }
     @DeleteMapping("delete")
     public ResponseResult Delete(@CurrentUserId String id,@RequestBody Lists lists){
