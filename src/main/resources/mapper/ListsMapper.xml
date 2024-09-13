@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wrx.mapper.ListMapper">
+    <insert id="createList">
+        insert into lists values (null,#{i},null,#{lists.list_cover_url},#{lists.list_name})
+    </insert>
+    <insert id="add_music">insert into music_inlist values (#{list_id},#{music_id},#{user_id})</insert>
+    <delete id="Delete">DELETE  from lists where user_id = #{user_id} and list_id = #{list_id}</delete>
+    <delete id="DeleteMusicInList">delete  from music_inlist where user_id = #{user_id} and list_id = #{list_id}</delete>
+    <delete id="DeleteOneMusicInList">delete  from  music_inlist where user_id = #{user_id} and list_id = #{list_id} and music_id = #{music_id}</delete>
+    <select id="createListJudge" resultType="java.lang.Object">SELECT COUNT(*) FROM lists
+     WHERE user_id = #{i} and list_name = #{lists.list_name}</select>
+    <select id="geyList_Num" resultType="java.lang.Integer">SELECT COUNT(*) from lists where user_id = #{id0} </select>
+    <select id="list_in" resultType="com.wrx.domain.Lists">SELECT * FROM lists WHERE user_id = #{id0} ORDER BY list_id
+        LIMIT 1 OFFSET #{i}</select>
+    <select id="find_addJudge" resultType="java.lang.Integer">SELECT COUNT(*)
+                                                              FROM music_inlist
+                                                              WHERE user_id = #{user_id} AND music_id = #{music_id}</select>
+    <select id="getmusicInListNum" resultType="java.lang.Integer">select count(*) from music_inlist where user_id = #{user_id} and list_id = #{list_id}</select>
+    <select id="ShowMusicInList" resultType="com.wrx.domain.Music_inList">select * from music_inlist JOIN music ON music.music_id = music_inlist.music_id
+where user_id = #{user_id} and list_id = #{list_id} ORDER BY list_id
+        LIMIT 1 OFFSET #{i}</select>
+    <select id="DeleteListJudge" resultType="java.lang.Integer">SELECT COUNT(*) FROM lists WHERE user_id = #{user_id} and list_id = #{list_id}</select>
+    <select id="DeleteOneMusicInListJudge" resultType="java.lang.Integer">select count(*) from music_inlist where user_id = #{user_id}
+                                    and music_id = #{music_id} and list_id = #{list_id}</select>
+
+</mapper>

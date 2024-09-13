@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wrx.mapper.MusicMapper">
+    <select id="getTypesNum" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM type
+    </select>
+    <select id="showType" resultType="com.wrx.domain.Type">select * from type where type_id =#{id}</select>
+    <select id="getMusicNum" resultType="java.lang.Integer">SELECT COUNT(*) FROM mv where type_id = #{type_id1}</select>
+    <select id="music_intype" resultType="com.wrx.domain.Music">SELECT * FROM music WHERE type_id = #{x} ORDER BY music_id
+   LIMIT 1 OFFSET #{i} </select>
+    <select id="music_details" resultType="com.wrx.domain.Music">select * from music where music_id =#{musicId1}</select>
+</mapper>

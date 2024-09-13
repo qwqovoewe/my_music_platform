@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wrx.mapper.MVMapper">
+    <select id="getMvNum" resultType="java.lang.Integer">SELECT COUNT(*) FROM mv where type_id = #{typeId1}</select>
+    <select id="mv_intype" resultType="com.wrx.domain.Mv">SELECT * FROM mv  JOIN music ON music.music_id = mv.music_id
+         WHERE mv.type_id = #{x} ORDER BY mv_id LIMIT 1 OFFSET #{i}</select>
+    <select id="mv_details" resultType="com.wrx.domain.Mv">select * from mv JOIN music ON music.music_id = mv.music_id
+         where mv.mv_id = #{mvId1}</select>
+</mapper>

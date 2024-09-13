@@ -37,9 +37,9 @@ private UserMapper userMapper;
     @Override
     public boolean registerJudge(User user) {
         if(userMapper.registerJudge(user).equals(1))
-            return true;
-        else
             return false;
+        else
+            return true;
 
     }
 
