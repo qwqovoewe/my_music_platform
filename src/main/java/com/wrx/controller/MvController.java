@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -21,15 +23,19 @@ public class MvController {
    public ResponseResult mv_intype(@PathVariable String type_id){
       Map<String,Object> map =new HashMap<>();
       Integer type_id1 = Integer.valueOf(type_id);
+      List<Map<String, String>> listsDetails = new ArrayList<>();
+
       for(int i=0;i<mvService.getMvNum(type_id1);i++){
          Mv mv_intype = mvService.Mv_intype(i,type_id1);
-         map.put("mv"+String.valueOf(i+1)+"description",mv_intype.getDescription());
-         map.put("mv"+String.valueOf(i+1)+"movie_url",mv_intype.getMovie_url());
-         map.put("mv"+String.valueOf(i+1)+"title",mv_intype.getTitle());
-         map.put("mv"+String.valueOf(i+1)+"singer",mv_intype.getPicture_url());
-         map.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
-
+         Map<String, String> listDetail = new HashMap<>();
+         listDetail.put("mv"+String.valueOf(i+1)+"description",mv_intype.getDescription());
+         listDetail.put("mv"+String.valueOf(i+1)+"movie_url",mv_intype.getMovie_url());
+         listDetail.put("mv"+String.valueOf(i+1)+"title",mv_intype.getTitle());
+         listDetail.put("mv"+String.valueOf(i+1)+"singer",mv_intype.getPicture_url());
+         listDetail.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
+         listsDetails.add(listDetail);
       }
+      map.put("",listsDetails);
       return new ResponseResult(200,"查询成功！",map);
    }
    @GetMapping("/choice/{mv_id}" )
@@ -48,14 +54,18 @@ public class MvController {
    @GetMapping("/recommendations")
       public ResponseResult music_intype(){
       Map<String,Object> map =new HashMap<>();
+      List<Map<String, String>> listsDetails = new ArrayList<>();
       for(int i=0;i<mvService.getMvNum(5);i++){
          Mv mv_intype = mvService.Mv_intype(i,5);
-         map.put("mv"+String.valueOf(i+1)+"description",mv_intype.getDescription());
-         map.put("mv"+String.valueOf(i+1)+"movie_url",mv_intype.getMovie_url());
-         map.put("mv"+String.valueOf(i+1)+"title",mv_intype.getTitle());
-         map.put("mv"+String.valueOf(i+1)+"singer",mv_intype.getPicture_url());
-         map.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
+         Map<String, String> listDetail = new HashMap<>();
+         listDetail.put("mv"+String.valueOf(i+1)+"description",mv_intype.getDescription());
+         listDetail.put("mv"+String.valueOf(i+1)+"movie_url",mv_intype.getMovie_url());
+         listDetail.put("mv"+String.valueOf(i+1)+"title",mv_intype.getTitle());
+         listDetail.put("mv"+String.valueOf(i+1)+"singer",mv_intype.getPicture_url());
+         listDetail.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
+         listsDetails.add(listDetail);
       }
+      map.put("",listsDetails);
       return new ResponseResult(200,"查询成功！",map);
    }
 }

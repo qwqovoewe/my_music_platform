@@ -7,7 +7,10 @@ import com.wrx.resolver.CurrentUserId;
 import com.wrx.service.ListsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -31,11 +34,15 @@ public class ListsController {
     public ResponseResult ShowLists(@CurrentUserId String id) {
         Integer id0 = Integer.valueOf(id);
         Map<String, Object> map = new HashMap<>();
-        for (int i = 0; i < listsService.getlists_Num(id0); i++) {
-            Lists list_in = listsService.list_in(id0, i);
-            map.put("list" + String.valueOf(i + 1) + "title", list_in.getList_name());
-            map.put("list" + String.valueOf(i + 1) + "list_cover_url", list_in.getList_cover_url());
+        List<Map<String, String>> listsDetails = new ArrayList<>();
+            for (int i = 0; i < listsService.getlists_Num(id0); i++) {
+                Lists list_in = listsService.list_in(id0, i);
+            Map<String, String> listDetail = new HashMap<>();
+            listDetail.put("list" + String.valueOf(i + 1) + "title", list_in.getList_name());
+            listDetail.put("list" + String.valueOf(i + 1) + "list_id",String.valueOf(list_in.getList_id()));
+           listsDetails.add(listDetail);
         }
+            map.put("",listsDetails);
         return new ResponseResult(200, "查看成功!", map);
     }
 
@@ -56,14 +63,19 @@ public class ListsController {
         Integer id0 = Integer.valueOf(id);
         Map<String, Object> map = new HashMap<>();
         music_inList.setUser_id(id0);
+        List<Map<String, String>> listsDetails = new ArrayList<>();
         for (int i = 0; i < listsService.getmusicInListNum(music_inList); i++) {
             music_inList.setI(i);
             Music_inList showMusicInList = listsService.ShowMusicInList(music_inList);
-            map.put("music" + String.valueOf(i + 1) + "title", showMusicInList.getTitle());
-            map.put("music" + String.valueOf(i + 1) + "list_cover_url", showMusicInList.getMusic_cover_url());
-            map.put("music" + String.valueOf(i + 1) + "singer", showMusicInList.getSinger());
-            map.put("music" + String.valueOf(i + 1) + "music_url", showMusicInList.getMusic_url());
+            Map<String, String> listDetail = new HashMap<>();
+            listDetail.put("music" + String.valueOf(i + 1) + "title", showMusicInList.getTitle());
+            listDetail.put("music" + String.valueOf(i + 1) + "list_cover_url", showMusicInList.getMusic_cover_url());
+            listDetail.put("music" + String.valueOf(i + 1) + "singer", showMusicInList.getSinger());
+            listDetail.put("music" + String.valueOf(i + 1) + "music_url", showMusicInList.getMusic_url());
+            listsDetails.add(listDetail);
         }
+        map.put(" ",listsDetails);
+        map.put("music_num",listsService.getmusicInListNum(music_inList));
         return new ResponseResult(200,"查询成功！",map);
     }
     @DeleteMapping("delete")

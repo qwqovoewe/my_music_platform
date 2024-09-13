@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wrx.mapper.ListMapper">
     <insert id="createList">
-        insert into lists values (null,#{i},null,#{lists.list_cover_url},#{lists.list_name})
+        insert into lists values (null,#{i},null,null,#{lists.list_name})
     </insert>
     <insert id="add_music">insert into music_inlist values (#{list_id},#{music_id},#{user_id})</insert>
     <delete id="Delete">DELETE  from lists where user_id = #{user_id} and list_id = #{list_id}</delete>

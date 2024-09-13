@@ -6,7 +6,10 @@ import com.wrx.domain.Type;
 import com.wrx.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -28,17 +31,20 @@ public class MusicController {
     public ResponseResult music_intype(@PathVariable String type_id){
     Map<String,Object> map =new HashMap<>();
     Integer type_id1 = Integer.valueOf(type_id);
+    List<Map<String, String>> listsDetails = new ArrayList<>();
+
     for(int i=0;i<musicService.getMusicNum(type_id1);i++){
-
         Music music_intype = musicService.Music_intype(i,type_id1);
-        map.put("music"+String.valueOf(i+1)+"title",music_intype.getTitle());
-        map.put("music"+String.valueOf(i+1)+"singer",music_intype.getSinger());
-        map.put("music"+String.valueOf(i+1)+"composer",music_intype.getComposer());
-        map.put("music"+String.valueOf(i+1)+"wording",music_intype.getWording());
-        map.put("music"+String.valueOf(i+1)+"music_cover_url",music_intype.getMusic_cover_url());
-        map.put("music"+String.valueOf(i+1)+"music_url",music_intype.getMusic_url());
-
+        Map<String, String> listDetail = new HashMap<>();
+        listDetail.put("music"+String.valueOf(i+1)+"title",music_intype.getTitle());
+        listDetail.put("music"+String.valueOf(i+1)+"singer",music_intype.getSinger());
+        listDetail.put("music"+String.valueOf(i+1)+"composer",music_intype.getComposer());
+        listDetail.put("music"+String.valueOf(i+1)+"wording",music_intype.getWording());
+        listDetail.put("music"+String.valueOf(i+1)+"music_cover_url",music_intype.getMusic_cover_url());
+        listDetail.put("music"+String.valueOf(i+1)+"music_url",music_intype.getMusic_url());
+        listsDetails.add(listDetail);
     }
+    map.put(" ",listsDetails);
     return new ResponseResult(200,"查询成功！",map);
 }
 @GetMapping("/choice/{music_id}")
@@ -59,15 +65,19 @@ public class MusicController {
     @GetMapping("/recommendations")
     public ResponseResult music_intype(){
         Map<String,Object> map =new HashMap<>();
+        List<Map<String, String>> listsDetails = new ArrayList<>();
         for(int i=0;i<musicService.getMusicNum(5);i++){
             Music music_intype = musicService.Music_intype(i,5);
-            map.put("music"+String.valueOf(i+1)+"title",music_intype.getTitle());
-            map.put("music"+String.valueOf(i+1)+"singer",music_intype.getSinger());
-            map.put("music"+String.valueOf(i+1)+"composer",music_intype.getComposer());
-            map.put("music"+String.valueOf(i+1)+"wording",music_intype.getWording());
-            map.put("music"+String.valueOf(i+1)+"music_cover_url",music_intype.getMusic_cover_url());
-            map.put("music"+String.valueOf(i+1)+"music_url",music_intype.getMusic_url());
+            Map<String, String> listDetail = new HashMap<>();
+            listDetail.put("music"+String.valueOf(i+1)+"title",music_intype.getTitle());
+            listDetail.put("music"+String.valueOf(i+1)+"singer",music_intype.getSinger());
+            listDetail.put("music"+String.valueOf(i+1)+"composer",music_intype.getComposer());
+            listDetail.put("music"+String.valueOf(i+1)+"wording",music_intype.getWording());
+            listDetail.put("music"+String.valueOf(i+1)+"music_cover_url",music_intype.getMusic_cover_url());
+            listDetail.put("music"+String.valueOf(i+1)+"music_url",music_intype.getMusic_url());
+            listsDetails.add(listDetail);
         }
+        map.put("",listsDetails);
         return new ResponseResult(200,"查询成功！",map);
     }
 }
