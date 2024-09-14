@@ -3,6 +3,8 @@ package com.wrx.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.w3c.dom.Text;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -16,4 +18,6 @@ public class Music {
         private String music_cover_url;
         private String music_url;
         private String words_url;
+        private String words;
+        private Integer loveOrNot;
 }

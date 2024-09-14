@@ -1,5 +1,7 @@
 package com.wrx.controller;
 
+import cn.hutool.crypto.digest.BCrypt;
+import com.wrx.aop.InvokeLog;
 import com.wrx.domain.ResponseResult;
 import com.wrx.domain.User;
 import com.wrx.resolver.CurrentUserId;
@@ -21,10 +23,14 @@ public class  UserController {
     @Autowired
     private UserService userService;
     @PostMapping("/register")
+    @InvokeLog
     public ResponseResult insertUser(@RequestBody User user){
-        if(userService.registerJudge(user)) {
+        if(userService.registerJudge(user))
+        {
+            String hashpw= BCrypt.hashpw(user.getPassword());
+            user.setPassword(hashpw);
             userService.insertUser(user);
-            //对重名时的判断
+            user.setUser_id(userService.getUserID(user));
             return new ResponseResult(200, "添加成功!");
         }
         else{
@@ -33,14 +39,17 @@ public class  UserController {
     }
 
     @PostMapping("/login")
+    @InvokeLog
     public ResponseResult login(@RequestBody User user) {
-        User loginUser = userService.login(user);
+//        User loginUser = userService.login(user);
+        User tem = userService.showfromname(user);
+
         //校验用户名密码
         Map<String, Object> map = new HashMap<>();
-        if (loginUser != null) {
+        if (BCrypt.checkpw( user.getPassword(),tem.getPassword())) {
 //成功，生产token
 //
-            String token = JwtUtil.createJWT(UUID.randomUUID().toString(),String.valueOf(loginUser.getUser_id()), null);
+            String token = JwtUtil.createJWT(UUID.randomUUID().toString(),String.valueOf(user.getUser_id()), null);
             map.put("token", token);
             return new ResponseResult(200, "登陆成功！", map);
         }
@@ -51,12 +60,12 @@ public class  UserController {
     }
 
     @PostMapping("/editor")
+    @InvokeLog
     public ResponseResult editor(@RequestBody User user, @CurrentUserId String id){
     Map<String,Object> map =new HashMap<>();
         Integer id1 = Integer.valueOf(id);
         user.setUser_id(id1);
         map.put("nickname", user.getNickname());
-        map.put("password", user.getPassword());
         map.put("sex",user.getSex());
         map.put("hobby", user.getHobby());
     if(userService.update(user)!=0){
@@ -67,6 +76,7 @@ public class  UserController {
         }
     }
     @GetMapping("/show")
+    @InvokeLog
     public ResponseResult show(User user, @CurrentUserId String id){
         Map<String,Object> map =new HashMap<>();
         Integer id1 = Integer.valueOf(id);

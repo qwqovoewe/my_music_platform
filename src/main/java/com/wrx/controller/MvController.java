@@ -1,4 +1,5 @@
 package com.wrx.controller;
+import com.wrx.aop.InvokeLog;
 import com.wrx.domain.Mv;
 import com.wrx.domain.Music;
 import com.wrx.domain.ResponseResult;
@@ -20,6 +21,7 @@ public class MvController {
 @Autowired
    private MvService mvService;
    @GetMapping("/{type_id}")
+   @InvokeLog
    public ResponseResult mv_intype(@PathVariable String type_id){
       Map<String,Object> map =new HashMap<>();
       Integer type_id1 = Integer.valueOf(type_id);
@@ -28,16 +30,18 @@ public class MvController {
       for(int i=0;i<mvService.getMvNum(type_id1);i++){
          Mv mv_intype = mvService.Mv_intype(i,type_id1);
          Map<String, String> listDetail = new HashMap<>();
-         listDetail.put("mv"+String.valueOf(i+1)+"description",mv_intype.getDescription());
-         listDetail.put("mv"+String.valueOf(i+1)+"movie_url",mv_intype.getMovie_url());
-         listDetail.put("mv"+String.valueOf(i+1)+"title",mv_intype.getTitle());
-         listDetail.put("mv"+String.valueOf(i+1)+"singer",mv_intype.getPicture_url());
-         listDetail.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
+         listDetail.put("description",mv_intype.getDescription());
+         listDetail.put("movie_url",mv_intype.getMovie_url());
+         listDetail.put("title",mv_intype.getTitle());
+         listDetail.put("singer",mv_intype.getSinger());
+         listDetail.put("mv_id",String.valueOf(mv_intype.getMv_id()));
+         listDetail.put("pictute_url",mv_intype.getPicture_url());
          listsDetails.add(listDetail);
       }
       return new ResponseResult(200,"查询成功！",listsDetails    );
    }
    @GetMapping("/choice/{mv_id}" )
+   @InvokeLog
    public ResponseResult mv_details(@PathVariable String mv_id){
       Map<String,Object> map =new HashMap<>();
       Integer mv_id1 = Integer.valueOf(mv_id);
@@ -48,20 +52,23 @@ public class MvController {
       map.put("description",mv_details.getDescription());
       map.put("movie_url",mv_details.getMovie_url());
       map.put("music_url",mv_details.getMusic_url());
+      map.put("mv_id",String.valueOf(mv_details.getMv_id()));
       return new ResponseResult(200,"查询成功！",map);
    }
    @GetMapping("/recommendations")
+   @InvokeLog
       public ResponseResult music_intype(){
       Map<String,Object> map =new HashMap<>();
       List<Map<String, String>> listsDetails = new ArrayList<>();
       for(int i=0;i<mvService.getMvNum(5);i++){
          Mv mv_intype = mvService.Mv_intype(i,5);
          Map<String, String> listDetail = new HashMap<>();
-         listDetail.put("mv"+String.valueOf(i+1)+"description",mv_intype.getDescription());
-         listDetail.put("mv"+String.valueOf(i+1)+"movie_url",mv_intype.getMovie_url());
-         listDetail.put("mv"+String.valueOf(i+1)+"title",mv_intype.getTitle());
-         listDetail.put("mv"+String.valueOf(i+1)+"singer",mv_intype.getPicture_url());
-         listDetail.put("mv"+String.valueOf(i+1)+"music_url",mv_intype.getMusic_url());
+         listDetail.put("description",mv_intype.getDescription());
+         listDetail.put("movie_url",mv_intype.getMovie_url());
+         listDetail.put("title",mv_intype.getTitle());
+         listDetail.put("singer",mv_intype.getPicture_url());
+         listDetail.put("music_url",mv_intype.getMusic_url());
+         listDetail.put("mv_id",String.valueOf(mv_intype.getMv_id()));
          listsDetails.add(listDetail);
       }
       return new ResponseResult(200,"查询成功！",listsDetails);

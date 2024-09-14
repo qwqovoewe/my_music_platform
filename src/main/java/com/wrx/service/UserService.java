@@ -16,4 +16,10 @@ public interface UserService {
 
 
     User show(User user);
+
+    void insertList(User user);
+
+    Integer getUserID(User user);
+
+    User showfromname(User user);
 }

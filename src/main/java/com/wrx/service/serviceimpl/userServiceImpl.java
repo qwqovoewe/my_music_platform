@@ -28,9 +28,8 @@ private UserMapper userMapper;
     }
 
     @Override
-    @Transactional//声明式事务判断
+//    @Transactional//声明式事务判断
     public void insertUser(User user) {
-        //需要从前端传过来
         userMapper.insertUser(user);
     }
 
@@ -46,6 +45,22 @@ private UserMapper userMapper;
     @Override
     public User show(User user) {
         return userMapper.show(user);
+    }
+
+    @Override
+    public void insertList(User user) {
+        userMapper.insertList(user);
+    }
+
+
+    @Override
+    public Integer getUserID(User user) {
+        return userMapper.getUserID(user);
+    }
+
+    @Override
+    public User showfromname(User user) {
+        return userMapper.showFromname(user);
     }
 
 }

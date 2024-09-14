@@ -1,4 +1,5 @@
 package com.wrx.controller;
+import com.wrx.aop.InvokeLog;
 import com.wrx.domain.Lists;
 import com.wrx.domain.Music;
 import com.wrx.domain.Music_inList;
@@ -19,6 +20,7 @@ public class ListsController {
     @Autowired
     private ListsService listsService;
     @PostMapping("/create")
+@InvokeLog
     public ResponseResult CreateList(@RequestBody Lists lists, @CurrentUserId String id) {
         Integer i = Integer.valueOf(id);
         if (listsService.createListJudge(lists, i)) {
@@ -31,6 +33,7 @@ public class ListsController {
     }
 
     @GetMapping("/shows")
+    @InvokeLog
     public ResponseResult ShowLists(@CurrentUserId String id) {
         Integer id0 = Integer.valueOf(id);
         Map<String, Object> map = new HashMap<>();
@@ -38,8 +41,8 @@ public class ListsController {
             for (int i = 0; i < listsService.getlists_Num(id0); i++) {
                 Lists list_in = listsService.list_in(id0, i);
             Map<String, String> listDetail = new HashMap<>();
-            listDetail.put("list" + String.valueOf(i + 1) + "title", list_in.getList_name());
-            listDetail.put("list" + String.valueOf(i + 1) + "list_id",String.valueOf(list_in.getList_id()));
+            listDetail.put("list_title", list_in.getList_name());
+            listDetail.put("list_id",String.valueOf(list_in.getList_id()));
            listsDetails.add(listDetail);
         }
 
@@ -47,9 +50,9 @@ public class ListsController {
     }
 
     @PostMapping("/add")
+    @InvokeLog
     public ResponseResult addMusic(@RequestBody Music_inList music_inList, @CurrentUserId String id) {
         Integer id0 = Integer.valueOf(id);
-        music_inList.setUser_id(id0);
         if (listsService.addJudge(music_inList)) {
             listsService.add_music(music_inList);
             return new ResponseResult(200, "添加成功！");
@@ -59,30 +62,31 @@ public class ListsController {
     }
 
     @PostMapping("/showMusicInList")
+    @InvokeLog
     public ResponseResult showMusicInList(@CurrentUserId String id,@RequestBody Music_inList music_inList) {
         Integer id0 = Integer.valueOf(id);
         Map<String, Object> map = new HashMap<>();
-        music_inList.setUser_id(id0);
         List<Map<String, String>> listsDetails = new ArrayList<>();
-        for (int i = 0; i < listsService.getmusicInListNum(music_inList); i++) {
-            music_inList.setI(i);
+        for (int j = 0; j < listsService.getmusicInListNum(music_inList); j++) {
+            music_inList.setI(j);
             Music_inList showMusicInList = listsService.ShowMusicInList(music_inList);
             Map<String, String> listDetail = new HashMap<>();
-            listDetail.put("music" + String.valueOf(i + 1) + "title", showMusicInList.getTitle());
-            listDetail.put("music" + String.valueOf(i + 1) + "list_cover_url", showMusicInList.getMusic_cover_url());
-            listDetail.put("music" + String.valueOf(i + 1) + "singer", showMusicInList.getSinger());
-            listDetail.put("music" + String.valueOf(i + 1) + "music_url", showMusicInList.getMusic_url());
+            listDetail.put("title", showMusicInList.getTitle());
+            listDetail.put("music_cover_url", showMusicInList.getMusic_cover_url());
+            listDetail.put("singer", showMusicInList.getSinger());
+            listDetail.put("music_url", showMusicInList.getMusic_url());
+            listDetail.put("music_id",String.valueOf( showMusicInList.getMusic_id()));
             listsDetails.add(listDetail);
         }
         return new ResponseResult(200,"查询成功！",listsDetails);
     }
     @DeleteMapping("delete")
+    @InvokeLog
     public ResponseResult Delete(@CurrentUserId String id,@RequestBody Lists lists){
         Integer id0 = Integer.valueOf(id);
         Map<String, Object> map = new HashMap<>();
         lists.setUser_id(id0);
         Music_inList music_inList = new Music_inList();
-        music_inList.setUser_id(id0);
         music_inList.setList_id(lists.getList_id());
         if(listsService.DeleteListJudge(lists)) {
             listsService.delete(lists);
@@ -94,10 +98,10 @@ public class ListsController {
         }
     }
     @DeleteMapping("/deleteMusic")
+    @InvokeLog
     public ResponseResult DeleteMusic(@CurrentUserId String id,@RequestBody Music_inList music_inList){
         Integer id0 = Integer.valueOf(id);
         Map<String, Object> map = new HashMap<>();
-        music_inList.setUser_id(id0);
         if(listsService.DeleteOneMusicInListJudge(music_inList)) {
             listsService.deleteOneMusicInList(music_inList);
             return new ResponseResult(200, "删除成功");

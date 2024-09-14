@@ -13,11 +13,16 @@ public interface UserMapper {
 
     User login(User user);
 
-    void insertUser(User user);
     Integer registerJudge(User user);
 
     User show(User user);
 
 
+    void insertList(User user);
 
+    Integer getUserID(User user);
+
+    void insertUser(User user);
+
+    User showFromname(User user);
 }
