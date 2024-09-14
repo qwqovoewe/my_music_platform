@@ -17,6 +17,6 @@ update user set nickname = #{nickname},sex=#{sex},hobby=#{hobby} where user_id =
     <select id="editor" resultType="com.wrx.domain.User">select * from user where username = #{username} and password = #{password}</select>
     <select id="show" resultType="com.wrx.domain.User"> select * from user where user_id =  #{user_id} </select>
     <select id="getUserID" resultType="java.lang.Integer">select  user_id from user where username = #{username}</select>
-    <select id="showFromname" resultType="com.wrx.domain.User">select * from user where username = #{username}</select>
+<!--    <select id="showFromname" resultType="com.wrx.domain.User">select * from user where username = #{username}</select>-->
 
 </mapper>

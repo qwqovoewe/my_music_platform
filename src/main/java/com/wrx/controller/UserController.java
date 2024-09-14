@@ -27,10 +27,12 @@ public class  UserController {
     public ResponseResult insertUser(@RequestBody User user){
         if(userService.registerJudge(user))
         {
-            String hashpw= BCrypt.hashpw(user.getPassword());
-            user.setPassword(hashpw);
+//            String hashpw= BCrypt.hashpw(user.getPassword());
+//            user.setPassword(hashpw);
             userService.insertUser(user);
+
             user.setUser_id(userService.getUserID(user));
+            userService.insertList(user);
             return new ResponseResult(200, "添加成功!");
         }
         else{
@@ -41,15 +43,15 @@ public class  UserController {
     @PostMapping("/login")
     @InvokeLog
     public ResponseResult login(@RequestBody User user) {
-//        User loginUser = userService.login(user);
-        User tem = userService.showfromname(user);
+        User loginUser = userService.login(user);
+//        User tem = userService.showfromname(user);
 
         //校验用户名密码
         Map<String, Object> map = new HashMap<>();
-        if (BCrypt.checkpw( user.getPassword(),tem.getPassword())) {
+//        if (BCrypt.checkpw( user.getPassword(),tem.getPassword())) {
+        if (loginUser!=null) {
 //成功，生产token
-//
-            String token = JwtUtil.createJWT(UUID.randomUUID().toString(),String.valueOf(user.getUser_id()), null);
+            String token = JwtUtil.createJWT(UUID.randomUUID().toString(),String.valueOf(loginUser.getUser_id()), null);
             map.put("token", token);
             return new ResponseResult(200, "登陆成功！", map);
         }
