@@ -1,7 +1,10 @@
 package com.wrx.controller;
 
 import cn.hutool.crypto.digest.BCrypt;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wrx.aop.InvokeLog;
+import com.wrx.domain.Page;
 import com.wrx.domain.ResponseResult;
 import com.wrx.domain.User;
 import com.wrx.resolver.CurrentUserId;
@@ -12,10 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -48,7 +48,7 @@ public class  UserController {
 
         //校验用户名密码
         Map<String, Object> map = new HashMap<>();
-//        if (BCrypt.checkpw( user.getPassword(),tem.getPassword())) {
+//        if (BCrypt.checkpw( user.getPassword(),tem.getPassword()) && loginUser != null) {
         if (loginUser!=null) {
 //成功，生产token
             String token = JwtUtil.createJWT(UUID.randomUUID().toString(),String.valueOf(loginUser.getUser_id()), null);
@@ -89,6 +89,32 @@ public class  UserController {
         map.put("sex",user1.getSex());
         map.put("hobby", user1.getHobby());
         return new ResponseResult(200,"",map);
+    }
+    @PostMapping("/selecttall")
+    public ResponseResult selecttall(){
+        List<User> users=userService.selectAll();
+        if(users.size()!=0){
+            return new ResponseResult<>(200,"查询成功！",users);
+        }
+        else {
+            return  new ResponseResult(300,"查询失败，请重试！");
+        }
+    }
+    @PostMapping("/selectPage")
+    public ResponseResult selcetall(@RequestBody Page page) {
+
+        //这一句一定要放在查出所有数据的上边，第一个数表示pageNum，第二个数表示pageSize
+        PageHelper.startPage(page.getPagenum(),page.getCounts());
+        //这里表示要获取所有的信息
+        List<User> users=userService.selectAll();
+        //转换成分页的形式，这里做改动后返回值于原来相比格式发生变化，要及时调整前端接收数据的格式。
+        PageInfo pageInfo = new PageInfo(users);
+        if(pageInfo.getSize()!=0){
+            return new ResponseResult(200,"查询成功",pageInfo);
+        }
+        else{
+            return new ResponseResult(300,"查询失败");
+        }
     }
 }
 

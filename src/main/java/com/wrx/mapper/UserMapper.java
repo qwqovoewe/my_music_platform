@@ -12,6 +12,7 @@ public interface UserMapper {
     Integer upateUser(User user);
 
     User login(User user);
+    List<User> selectAll();
 
     Integer registerJudge(User user);
 

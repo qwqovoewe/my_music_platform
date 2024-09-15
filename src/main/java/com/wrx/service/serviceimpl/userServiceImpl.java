@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class userServiceImpl implements UserService {
 
@@ -61,6 +63,10 @@ private UserMapper userMapper;
     @Override
     public User showfromname(User user) {
         return userMapper.showFromname(user);
+    }
+    @Override
+    public List<User> selectAll() {
+        return userMapper.selectAll();
     }
 
 }
